@@ -2,14 +2,14 @@
 # This script was kinda copied and re-adapted from
 # the amazing article at http://blog.z3bra.org/2014/01/images-in-terminal.html
 
-test -z "$1" && exit
+test -z "$1" && exit # filename
 
 W3MIMGDISPLAY="/usr/lib/w3m/w3mimgdisplay"
 FILENAME="$1"
-FONTH=14
-FONTW=8
-COLUMNS=`tput cols`
-LINES=`tput lines`
+FONTH=$(printf '%d' "$(test -z "$2" || echo "$2" && echo 10)" 2>/dev/null)
+FONTW=$(printf '%d' "$(test -z "$3" || echo "$3" && echo 5)" 2>/dev/null)
+COLUMNS=$(printf '%d' "$(test -z "$4" || echo "$4" && echo `tput cols`)" 2>/dev/null)
+LINES=$(printf '%d' "$(test -z "$5" || echo "$5" && echo `tput lines`)" 2>/dev/null)
 
 read width height <<< `echo -e "5;$FILENAME" | $W3MIMGDISPLAY`
 
@@ -27,5 +27,4 @@ if test $height -gt $max_height; then
 fi
 
 w3m_command="0;1;0;0;$width;$height;;;;;$FILENAME\n4;\n3;"
-tput cup $(($height/$FONTH)) 0
 echo -e $w3m_command|$W3MIMGDISPLAY

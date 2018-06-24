@@ -14,7 +14,7 @@ LINES=$(printf '%d' "$(test -z "$5" || echo "$5" && echo `tput lines`)" 2>/dev/n
 read width height <<< `echo -e "5;$FILENAME" | $W3MIMGDISPLAY`
 
 max_width=$(($FONTW * $COLUMNS))
-max_height=$(($FONTH * $((LINES - 2))))
+max_height=$(($FONTH * $LINES))
 
 
 if test $width -gt $max_width; then
